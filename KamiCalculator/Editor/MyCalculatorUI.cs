@@ -3,16 +3,20 @@ using UnityEngine;
 
 public class MyCalculatorUI : EditorWindow
 {
-    [MenuItem("test/MyCalculatorUI #g", false, 1)]   //加入了快捷键激活 # shift % ctrl & alt  加入了menu排序
+
+    [MenuItem("test/MyCalculatorUI #g", false, 0)]   //加入了快捷键激活 # shift % ctrl & alt  加入了menu排序
     private static void ShowWindow()
     {
         var window = EditorWindow.GetWindow(typeof(MyCalculatorUI));
         window.maximized = true;   //引出属性的get set
-        // window.minSize = new UnityEngine.Vector2(100, 300);
-        Texture pic_icon = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Kami_CSharp_Study/KamiCalculator/Editor/UI_icon/cat.png");
-        window.titleContent = new UnityEngine.GUIContent("kami cal", pic_icon);
+        window.minSize = new UnityEngine.Vector2(214, 180);
+        // window.maxSize = new UnityEngine.Vector2(214, 180);
+
+        Texture pic_icon = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Kami_CSharp_Study/my_csharp_study/KamiCalculator/Editor/UI_icon/cat.png");
+        window.titleContent = new UnityEngine.GUIContent("简易计算器", pic_icon);
         window.Show();
     }
+
 
     //打开UI验证
     [MenuItem("test/MyCalculatorUI #g", true)]
@@ -28,14 +32,83 @@ public class MyCalculatorUI : EditorWindow
         }
     }
 
-    [MenuItem("test/twoTool #g", false, 0)]   //加入了快捷键激活 # shift % ctrl & alt
+    //第二个工具的menu测试
+    [MenuItem("test/twoTool", false, 1)]
     private static void ShowtwoTool()
     {
         var window = EditorWindow.GetWindow(typeof(MyCalculatorUI));
         window.Show();
     }
 
+
+    //如果要使用GUIskin作为风格定义，可以通过 EditorGUIUtility.Load 加载guiskin文件，但默认是作为unity object，所以需要在通过强制转换符，转为GUISkin类型
+    //将guiskin加载写到OnGui外可优化程序执行效率，避免逐帧调用load 
+    //** 必须添加static 否则返回类型被调用会报错
+    private static GUISkin cal_gui_skin = (GUISkin)EditorGUIUtility.Load("Assets/Kami_CSharp_Study/my_csharp_study/KamiCalculator/Editor/GUI_style_file/calculator.guiskin");
+
+    //工具运行代码
     private void OnGUI()
     {
+        GUIContent layout_output = new GUIContent("content number");
+        // EditorGUILayout.LabelField(layout_output);  函数重载的另一种
+
+        //实例化一个新的GUIstyle 变量,可以自其他style继承，这里选用了编辑器自己的style风格之一
+        GUIStyle _laberstyle = new GUIStyle(EditorStyles.textField);
+        _laberstyle.fontSize = 25;
+        //设置文字大小后让整个布局能被大小影响
+        _laberstyle.wordWrap = true;
+
+        // EditorGUILayout.LabelField("number output", _laberstyle);
+        EditorGUILayout.LabelField("0", cal_gui_skin.textField);
+        EditorGUILayout.BeginHorizontal();
+        {
+            //添加一个editor自己的style，这个style自带一个不错的描边
+            EditorGUILayout.BeginVertical(cal_gui_skin.box);
+            {
+
+                EditorGUILayout.BeginHorizontal();
+                {
+                    GUILayout.Button("7", cal_gui_skin.button);
+                    GUILayout.Button("8", cal_gui_skin.button);
+                    GUILayout.Button("9", cal_gui_skin.button);
+                }
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal();
+                {
+                    GUILayout.Button("4", cal_gui_skin.button);
+                    GUILayout.Button("5", cal_gui_skin.button);
+                    GUILayout.Button("6", cal_gui_skin.button);
+                }
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal();
+                {
+                    GUILayout.Button("1", cal_gui_skin.button);
+                    GUILayout.Button("2", cal_gui_skin.button);
+                    GUILayout.Button("3", cal_gui_skin.button);
+                }
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal();
+                {
+                    GUILayout.Button("0", cal_gui_skin.button);
+                    GUILayout.Button("C", cal_gui_skin.button);
+                    GUILayout.Button("=", cal_gui_skin.button);
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.BeginVertical(cal_gui_skin.box);
+            {
+                GUILayout.Button("+", cal_gui_skin.button);
+                GUILayout.Button("-", cal_gui_skin.button);
+                GUILayout.Button("×", cal_gui_skin.button);
+                GUILayout.Button("÷", cal_gui_skin.button);
+            }
+            EditorGUILayout.EndVertical();
+        }
+        EditorGUILayout.EndHorizontal();
     }
 }
