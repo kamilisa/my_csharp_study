@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
 
+
+
 public class MyFirstScript : MonoBehaviour
 {
     // 向量：二维
@@ -22,13 +24,13 @@ public class MyFirstScript : MonoBehaviour
 
     private void Start()
     {
-        var aa = new testClass();
-        var aa_total = testClass.param_list_add(number_list2);
-        var bb = new testStruct(777);
+        var aa = new testClass(); //变量值为类的实例，若该变量被方法传参，则称为形参
+        var aa_total = testClass.param_list_add(number_list2);  // 测试不实例化，直接使用类方法
+        var bb = new testStruct(777); //测试初始化结构体
 
         aa.Score = -85;
-        Debug.LogError(aa.Score);
-        Debug.LogError(bb.Score);
+        Debug.LogError(aa.Score); //测试类属性的 get set
+        Debug.LogError(bb.Score); //测试类属性打印结果
 
         //操作数组的一些常用方法 通过数组的父类array类来找到更多可操作的方法
         // Array.Reverse(number_list2);
@@ -36,13 +38,31 @@ public class MyFirstScript : MonoBehaviour
 
         Debug.LogFormat("多维数组有{0}行，{1}列", number_list3.GetLength(0), number_list3.GetLength(1));
         Debug.LogFormat("参数数组和为{0}", aa_total);
+
+        //测试命名参数
         Nameparam(12, 23f, c: "kami");
+
+
+        //** 高级语法特性 **//
+        int a_t_1 = 10;  //变量值为实际类型，若该类变量被方法传参，则称为实参
+        //实参复制为的形参，因此方法计算的结果只改变形参而不影响原始实参 a_t_1 依然为10，aa因为是类的实例，实例作为形参被改写为30
+        advance_test_2(a_t_1, aa);
+        Debug.LogFormat("a 为 {0}， b 为 {1}", a_t_1, aa.B);
+
+        int a_t_2 = 10;
+        //原始实参被引用为形参，而不复制，因此方法计算直接作用于原始实参本身  a_t_2 被改写为 20 ，aa 则 因为本身就是类的实例 实例本身即引用参数，再次被重复引用，所以作为形参依然被改写为30
+        advance_test_3(ref a_t_2, ref aa);
+        Debug.LogFormat("a 为 {0}， b 为 {1}", a_t_2, aa.C);
+
+        //对于输出参数，虽然原始传入参数有做过初始化，但输出参数内部需要重新初始化，因此最终被新的输出结果改写原始值，换言之输出参数不在意原始传入参数的值
+        int a_t_3 = 10;
+        advance_test_4(out a_t_3, out aa);
+        Debug.LogFormat("a 为 {0}， b 为 {1}", a_t_3, aa.D);
     }
 
     //运行中逐帧执行的函数
     private void Update()
     {
-
     }
 
     //命名参数：样本
@@ -50,6 +70,31 @@ public class MyFirstScript : MonoBehaviour
     {
         Debug.LogFormat("a是{0}, b是{1}, c是{2}", a, b, c);
     }
+
+    //高阶语法特性 ：类参数
+    void advance_test_2(int a, testClass b)
+    {
+        a = a + 10;
+        b.B = b.B + 10;
+    }
+
+    //高阶语法特性 ：引用参数
+    void advance_test_3(ref int a, ref testClass b)
+    {
+        a = a + 10;
+        b.C = b.C + 10;
+    }
+
+    //高阶语法特性 ： 输出参数
+    void advance_test_4(out int a, out testClass b)
+    {
+        //输出参数必须在方法内部对参数重新初始化，且将计算结果传回传入参数本体，如果不进行初始化则无法使用
+        a = 30;
+        b = new testClass();
+        a = a + 10;
+        b.D = b.D + 10;
+    }
+
 }
 
 
@@ -58,7 +103,9 @@ class testClass
 {
     //对属性施加奇怪的原生设置，仿佛像方法，但并不是
 
-    public int testnum = 100;
+    public int B = 20;
+    public int C = 20;
+    public int D = 20;
     private int _score;
     public int Score
     {
@@ -81,7 +128,7 @@ class testClass
     }
 
     //测试参数数组
-    //**如果给类方法添加static静态 则该方法不需要实例化亦可直接调用
+    //**如果给类方法添加static 则该方法不需要实例化亦可直接调用
     public static int param_list_add(params int[] values)
     {
         int num = 0;
@@ -105,4 +152,5 @@ struct testStruct
         Score = _score;
     }
 }
+
 

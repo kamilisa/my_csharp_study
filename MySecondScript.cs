@@ -1,7 +1,9 @@
-﻿public class calculate_kami
+﻿public class MySecondScrip
 {
-    public static int add(int aa, int bb)
-    {
-        return (aa + bb);
-    }
+    public float aaa = 1.113f;
+}
+
+public class MySecondScript_A
+{
+    public float aaa = 1.113f;
 }

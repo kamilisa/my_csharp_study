@@ -413,6 +413,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2540f253adf18f24694b2f37a153a395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testVector2: {x: 0, y: 0}
+  testVector3: {x: 0, y: 0, z: 0}
+  testVector4: {x: 0, y: 0, z: 0, w: 0}
+  number_list: 00000000000000000000000000000000
+  number_list2: 7b000000210200000b0000001600000037020000
 --- !u!1 &1124581324
 GameObject:
   m_ObjectHideFlags: 0
