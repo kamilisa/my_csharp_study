@@ -135,22 +135,23 @@ public class MyCalculatorUI : EditorWindow
                     //等于运算
                     if (GUILayout.Button("=", cal_gui_skin.button))
                     {
-                        num2 = number_label;
+                        float newNm1 = float.Parse(num1);
+                        float newNm2 = float.Parse(number_label);
                         if (op == "+")
                         {
-                            number_label = num1 + num2;
+                            number_label = (newNm1 + newNm2).ToString();
                         }
                         else if (op == "-")
                         {
-
+                            number_label = (newNm1 - newNm2).ToString();
                         }
                         else if (op == "x")
                         {
-
+                            number_label = (newNm1 * newNm2).ToString();
                         }
                         else if (op == "/")
                         {
-
+                            number_label = (newNm1 / newNm2).ToString();
                         }
                     }
                 }

@@ -2,7 +2,6 @@ using UnityEngine;
 using System;
 
 
-
 public class MyFirstScript : MonoBehaviour
 {
     // 向量：二维
@@ -11,6 +10,15 @@ public class MyFirstScript : MonoBehaviour
     public Vector3 testVector3;
     // 向量：四维
     public Vector4 testVector4;
+
+    // 声明枚举
+    public enum God
+    {
+        Kami,  //枚举成员其实就是 常量const
+        Lisa,
+        Hilo
+    }
+    public God God_mem;  //实例化枚举
 
     // 数组：不初始化参数值，只设定数组长度
     public int[] number_list = new int[4];
@@ -39,8 +47,34 @@ public class MyFirstScript : MonoBehaviour
         Debug.LogFormat("多维数组有{0}行，{1}列", number_list3.GetLength(0), number_list3.GetLength(1));
         Debug.LogFormat("参数数组和为{0}", aa_total);
 
+        if (God_mem == God.Hilo || (int)God_mem == 1) //两种枚举用于if的条件方法
+        {
+            // Debug.LogFormat("枚举的输出值为{0}", God_mem);
+        }
+        //swich分支配合枚举
+        switch (God_mem)
+        {
+            case God.Hilo:
+                Debug.Log(God.Hilo);
+                break;
+            case God.Kami:
+                Debug.Log(God.Kami);
+                break;
+            default:
+                Debug.Log("wow,wonderful~~~");
+                break;
+        }
+
+
         //测试命名参数
         Nameparam(12, 23f, c: "kami");
+
+        //字符转换
+        int number_1 = 22;
+        float number_2 = number_1; //隐式转换 int to float
+        string number_3 = "113";
+        number_1 = int.Parse(number_3); //显式转换，string to int
+        number_3 = number_1.ToString(); //显式转换，int to string
 
 
         //** 高级语法特性 **//
@@ -58,6 +92,8 @@ public class MyFirstScript : MonoBehaviour
         int a_t_3 = 10;
         advance_test_4(out a_t_3, out aa);
         Debug.LogFormat("a 为 {0}， b 为 {1}", a_t_3, aa.D);
+
+
     }
 
     //运行中逐帧执行的函数
@@ -101,12 +137,13 @@ public class MyFirstScript : MonoBehaviour
 //类
 class testClass
 {
-    //对属性施加奇怪的原生设置，仿佛像方法，但并不是
 
+    public const int rigid = 100; //常量，声明后不可被外部改写，存于栈
     public int B = 20;
     public int C = 20;
     public int D = 20;
     private int _score;
+    //对属性成员施加奇怪的原生设置，仿佛像方法，但并不是
     public int Score
     {
         get
@@ -138,6 +175,7 @@ class testClass
         }
         return num;
     }
+
 }
 
 //结构
@@ -152,5 +190,4 @@ struct testStruct
         Score = _score;
     }
 }
-
 

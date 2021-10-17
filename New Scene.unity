@@ -416,6 +416,7 @@ MonoBehaviour:
   testVector2: {x: 0, y: 0}
   testVector3: {x: 0, y: 0, z: 0}
   testVector4: {x: 0, y: 0, z: 0, w: 0}
+  God_mem: 0
   number_list: 00000000000000000000000000000000
   number_list2: 7b000000210200000b0000001600000037020000
 --- !u!1 &1124581324
